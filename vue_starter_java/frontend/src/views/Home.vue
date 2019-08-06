@@ -55,6 +55,7 @@ h4 {
 }
 
 body > div#app > div#nav{
+  margin:0px;
   text-align: center;
   
 }
@@ -66,7 +67,7 @@ div.home > div.post > p{
 
 div.home > div.post{
   
-  border: 5px solid black;
+
   
   
 }
@@ -121,6 +122,7 @@ img {
   p{
     font-size: 1.5rem;
   }
+}
 
 @media only screen and (min-width: 1200px){
   img {
@@ -132,14 +134,17 @@ img {
 
   div.home {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   div.home > div.post{
-    width: 1000px;
+    border: 2px solid rgba(60, 74, 80, 0.13);
+    margin: 10px;
+    padding: 10px;
+    width: 800px;
   }
 }
-}
-
-
 </style>
+
