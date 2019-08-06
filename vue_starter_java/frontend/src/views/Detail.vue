@@ -1,36 +1,15 @@
 <template>
-  <div class="home">
-    <div class="post">
+  <div class="detail">
+    <div class="detailpost">
+    <router-link to="/"></router-link>
     <h4>Title for post</h4>
-    <router-link to='/detail'>
-        <img src='https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/4763/original/jamie-justin-brian-tech-elevator-veterans.jpg'/>
-    </router-link>
+    <img src ="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/4763/original/jamie-justin-brian-tech-elevator-veterans.jpg" 
+          alt='img'>
     <p>08/05/2019 10:55am</p>
+    <router-view/>
     </div>
-
   </div>
 </template>
-
-<script>
-import moment from 'moment'
-export default {
-  name: 'home',
-  
- data() {
-   return {
-      dating: dating.filter('formatDate', function(value) {
-      if (value) {
-      return moment(String(value)).format('MM/DD/YYYY hh:mm')
-    }
-})
-   }
- },
- methods: {
-
- } 
-}
- 
-</script>
 
 <style>
 
@@ -56,43 +35,43 @@ body > div#app > div#nav{
   
 }
 
-div.home > div.post > p{
+div.detail > div.detailpost > p{
   text-align: left;
   
 }
 
-div.home > div.post{
+div.detail > div.detailpost{
   
   border: 5px solid black;
   
   
 }
 
-img {
+img.detail {
   align-content: center;
   
   
 }
 
 @media only screen and (max-width: 600px){
-  img {
+  img.detail {
     object-fit: cover;
-    width: 100%;
+    width: 50%;
    
   }
 }
 
 @media only screen and (min-width: 600px){
-  img {
+  img.detail {
     object-fit: cover;
-    width: 100%;
+    width: 25%;
   }
 }
 
 @media only screen and (min-width: 768px){
-  img {
+  img.detail {
     object-fit: cover;
-    width: 100%;
+    width: 25%;
   }
 
   h4{
@@ -106,9 +85,9 @@ img {
 }
 
 @media only screen and (min-width: 992px){
-  img {
+   img.detail {
     object-fit: cover;
-    width: 100%;
+    width: 25%;
   }
 
   h4{
@@ -120,20 +99,21 @@ img {
   }
 
 @media only screen and (min-width: 1200px){
-  img {
+  img.detail {
     
     object-fit: cover;
-    width: 100%;
+    width: 50%;
     
   }
 
-  div.home {
+  div.detail {
     display: flex;
     justify-content: space-around;
   }
 
-  div.home > div.post{
-    width: 1000px;
+  div.detail > div.detailpost{
+    width: 750px;
+    
   }
 }
 }
