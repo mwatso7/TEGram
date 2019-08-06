@@ -2,10 +2,10 @@
   <div class="detail">
     <div class="detailpost">
     <router-link to="/"></router-link>
-    <h4>Title for post</h4>
-    <img src ="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/4763/original/jamie-justin-brian-tech-elevator-veterans.jpg" 
-          alt='img'>
-    <p>08/05/2019 10:55am</p>
+    <h4>{{post.title}}</h4>
+    <img v-bind:src ="post.img_url" alt='img'>
+    <span> Comments </span>
+   <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
     <router-view/>
     </div>
   </div>
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       postAPI: "http://localhost:8080/capstone/api/post/",
-      post: Object
+      post: {}
     }
   },
 
@@ -74,31 +74,31 @@ div.detail > div.detailpost{
   
 }
 
-img.detail {
+div.detailpost > img {
   align-content: center;
   
   
 }
 
 @media only screen and (max-width: 600px){
-  img.detail {
+  div.detailpost > img {
     object-fit: cover;
-    width: 50%;
+    width: 100%;
    
   }
 }
 
 @media only screen and (min-width: 600px){
-  img.detail {
+  div.detailpost > img {
     object-fit: cover;
-    width: 25%;
+    width: 100%;
   }
 }
 
 @media only screen and (min-width: 768px){
-  img.detail {
+  div.detailpost > img {
     object-fit: cover;
-    width: 25%;
+    width: 100%;
   }
 
   h4{
@@ -112,9 +112,25 @@ img.detail {
 }
 
 @media only screen and (min-width: 992px){
-   img.detail {
-    object-fit: cover;
-    width: 25%;
+  div.detailpost {
+    display:grid;
+    grid-template-columns: 0.5fr 4fr 1.5fr 0.5fr;
+    grid-template-areas: 
+    ". title . ."
+    ". img comments ."
+    ". img comments ."
+    ". date . .";
+    grid-gap: 5px;
+    
+  }
+   div.detailpost > img {
+    height: 650px;
+    width: 100%;
+    grid-area: img;
+  }
+
+  div.detailpost > span {
+    grid-area: comments;
   }
 
   h4{
@@ -123,10 +139,12 @@ img.detail {
 
   p{
     font-size: 1.5rem;
+    grid-area: date;
   }
+}
 
 @media only screen and (min-width: 1200px){
-  img.detail {
+  div.detail > img {
     
     object-fit: cover;
     width: 50%;
@@ -142,7 +160,6 @@ img.detail {
     width: 750px;
     
   }
-}
 }
 
 

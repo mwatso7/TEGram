@@ -2,7 +2,9 @@
   <div class="home">
     <div v-for="post in posts" v-bind:key="post.id" class="post">
       <h4>{{post.title}}</h4>
-      <img v-bind:src ="post.img_url" alt='img'>
+      <router-link v-bind:to="'/detail/post_id/' + post.post_id">
+      <img v-bind:src ="post.img_url" alt='img' >
+      </router-link>
       <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
     </div>
   </div>
