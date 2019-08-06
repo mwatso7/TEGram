@@ -1,35 +1,38 @@
 <template>
   <div class="home">
-    <div class="post">
-    <h4>Title for post</h4>
-    <router-link to='/detail'>
-        <img src='https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/4763/original/jamie-justin-brian-tech-elevator-veterans.jpg'/>
-    </router-link>
-    <p>08/05/2019 10:55am</p>
+    <div v-for="post in posts" v-bind:key="post.id" class="post">
+      <h4>{{post.title}}</h4>
+      <img v-bind:src ="post.img_url" alt='img'>
+      <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
     </div>
-
   </div>
 </template>
 
 <script>
-import moment from 'moment'
 export default {
-  name: 'home',
-  
- data() {
-   return {
-      dating: dating.filter('formatDate', function(value) {
-      if (value) {
-      return moment(String(value)).format('MM/DD/YYYY hh:mm')
-    }
-})
-   }
- },
- methods: {
-
- } 
-}
- 
+  name: "home",
+  data() {
+    return {
+      postAPI: "http://localhost:8080/capstone/api/allposts",
+      posts: [],
+      test: ""
+    };
+  },
+  method: {
+    
+  },
+  created() {
+    // load the reviews
+    fetch(this.postAPI)
+      .then((response) => {
+        return response.json();
+      })
+      .then((posts) => {
+        this.posts = posts;
+      })
+      .catch((err) => console.error(err));
+  }
+};
 </script>
 
 <style>
