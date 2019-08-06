@@ -11,6 +11,33 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "detail",
+  data() {
+    return {
+      postAPI: "http://localhost:8080/capstone/api/post/",
+      post: Object
+    }
+  },
+
+created() {
+    // load the reviews
+    fetch(this.postAPI+this.$route.params.post_id)
+      .then((response) => {
+        return response.json();
+      })
+      .then((post) => {
+        this.post = post;
+      })
+      .catch((err) => console.error(err));
+  }
+}
+</script>
+
+
+
+
 <style>
 
 a {
