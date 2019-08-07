@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <div v-for="post in posts" v-bind:key="post.id" class="post">
+    <div v-for="post in posts" v-bind:key="post.post_id" class="post">
       <h4>{{post.title}}</h4>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img v-bind:src ="post.img_url" alt='img' >
       </router-link>
       <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
-      <p></p>
+      <p>{{post.commentUsername}} : {{post.comment}}</p>
     </div>
   </div>
 </template>
@@ -18,8 +18,7 @@ export default {
     return {
       postAPI: "http://localhost:8080/capstone/api/post/allposts",
       commentAPI: "http://localhost:8080/capstone/api/comment/first/",
-      posts: [],
-      test: []
+      posts: []
     };
   },
   method: {
@@ -42,9 +41,17 @@ export default {
       })
       .then((posts) => {
         this.posts = posts;
-        /* this.posts.forEach((post) => {
-          post.comment = this.firstComment(post.id);
-        }) */
+        this.posts.forEach((post) => {
+          fetch(this.commentAPI+post.post_id)
+            .then((response) => {
+              return response.json();
+            })
+            .then((comment) => {
+              post.comment = comment.comment;
+              post.commentUsername = comment.user_name;
+            })
+            .catch((err) => console.error(err));
+        })
       })
       .catch((err) => console.error(err));
   }

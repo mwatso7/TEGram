@@ -12,6 +12,11 @@ INSERT INTO post(title, img_url, thumbnail, tags) VALUES ('Second Post','https:/
 
 INSERT INTO post(title, img_url, thumbnail, tags) VALUES ('Third Post','https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/4763/original/jamie-justin-brian-tech-elevator-veterans.jpg','thumbnail3/url/hereitis','tag1,tag2,tag3');
 
+INSERT INTO comments(user_name, comment) VALUES ('max','This is a great post');
+INSERT INTO comments(user_name, comment) VALUES ('max','This is not a great post');
+
+INSERT INTO post_comments_reference(post_id, comment_id) VALUES (1,1);
+INSERT INTO post_comments_reference(post_id, comment_id) VALUES (1,2);
 
 INSERT INTO post_user_reference(post_id, id) VALUES (1,1);
 INSERT INTO post_user_reference(post_id, id) VALUES (2,1);
