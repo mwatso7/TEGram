@@ -4,7 +4,7 @@
     <router-link to="/"></router-link>
     <h4>{{post.title}}</h4>
     <img v-bind:src ="post.img_url" alt='img'>
-    <span> Comments </span>
+    <span><p v-for="comment in comments" v-bind:key="comment.id">{{comment.user_name}}: {{comment.comment}}</p></span>
    <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
     <router-view/>
     </div>
@@ -16,8 +16,10 @@ export default {
   name: "detail",
   data() {
     return {
-      postAPI: "http://localhost:8080/capstone/api/post/",
-      post: {}
+      postAPI: "http://localhost:8080/capstone/api/post/single_post/",
+      commentAPI: "http://localhost:8080/capstone/api/comment/all/",
+      post: {},
+      comments: []
     }
   },
 
@@ -31,7 +33,17 @@ created() {
         this.post = post;
       })
       .catch((err) => console.error(err));
+
+      fetch(this.commentAPI+this.$route.params.post_id)
+      .then((response) => {
+        return response.json();
+      })
+      .then((comments) => {
+        this.comments = comments;
+      })
+      .catch((err) => console.error(err));
   }
+
 }
 </script>
 

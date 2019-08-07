@@ -6,6 +6,7 @@
       <img v-bind:src ="post.img_url" alt='img' >
       </router-link>
       <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
+      <p></p>
     </div>
   </div>
 </template>
@@ -15,13 +16,23 @@ export default {
   name: "home",
   data() {
     return {
-      postAPI: "http://localhost:8080/capstone/api/allposts",
+      postAPI: "http://localhost:8080/capstone/api/post/allposts",
+      commentAPI: "http://localhost:8080/capstone/api/comment/first/",
       posts: [],
-      test: ""
+      test: []
     };
   },
   method: {
-    
+/*     firstComment(id){
+      fetch(this.commentAPI+id)
+      .then((response) => {
+        return response.json();
+      })
+      .then((comment) => {
+        return comment.comment;
+      })
+      .catch((err) => console.error(err));
+    } */
   },
   created() {
     // load the reviews
@@ -31,6 +42,9 @@ export default {
       })
       .then((posts) => {
         this.posts = posts;
+        /* this.posts.forEach((post) => {
+          post.comment = this.firstComment(post.id);
+        }) */
       })
       .catch((err) => console.error(err));
   }
