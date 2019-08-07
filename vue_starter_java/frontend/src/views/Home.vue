@@ -49,6 +49,15 @@ export default {
 
 <style>
 
+body{
+  margin:0px;
+  padding: 0px;
+}
+
+div.home {
+  margin-top: 100px;
+}
+
 a {
   text-decoration: none;
   
@@ -69,6 +78,7 @@ h4 {
 body > div#app > div#nav{
   margin:0px;
   text-align: center;
+  background-color: aliceblue;
   
 }
 
@@ -76,8 +86,6 @@ div.home > div.post > p{
   text-align: left;
   
 }
-
-
 
 img {
   align-content: center;
@@ -91,16 +99,19 @@ img {
     width: 100%;
    
   }
+  div.home > div.post{
+
+  }
 }
 
-@media only screen and (min-width: 600px){
+/* @media only screen and (min-width: 600px){
   img {
     object-fit: cover;
     width: 100%;
   }
-}
+} */
 
-@media only screen and (min-width: 768px){
+/* @media only screen and (min-width: 768px){
   img {
     object-fit: cover;
     width: 100%;
@@ -117,6 +128,13 @@ img {
 }
 
 @media only screen and (min-width: 992px){
+  div.home > div.post{
+    border: 2px solid rgba(60, 74, 80, 0.13);
+    margin: 10px;
+    padding: 10px;
+    width: 600px;
+  }
+
   img {
     object-fit: cover;
     width: 100%;
@@ -130,8 +148,8 @@ img {
     font-size: 1.5rem;
   }
 }
-
-@media only screen and (min-width: 1200px){
+ */
+@media only screen and (min-width: 600px){
   img {
     
     object-fit: cover;
@@ -150,7 +168,7 @@ img {
     border: 2px solid rgba(60, 74, 80, 0.13);
     margin: 10px;
     padding: 10px;
-    width: 800px;
+    width: 600px;
   }
 }
 </style>

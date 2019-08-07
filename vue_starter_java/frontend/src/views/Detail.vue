@@ -4,8 +4,8 @@
     <router-link to="/"></router-link>
     <h4>{{post.title}}</h4>
     <img v-bind:src ="post.img_url" alt='img'>
-    <span><p v-for="comment in comments" v-bind:key="comment.id">{{comment.user_name}}: {{comment.comment}}</p></span>
-   <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
+    <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
+    <div><p v-for="comment in comments" v-bind:key="comment.id">{{comment.user_name}}: {{comment.comment}}</p></div>
     <router-view/>
     </div>
   </div>
@@ -71,6 +71,14 @@ h4 {
 
 body > div#app > div#nav{
   text-align: center;
+  width:100%;
+  position: fixed;
+  top: 0;
+  
+}
+
+div.detail{
+  margin-top: 100px;
   
 }
 
@@ -79,26 +87,16 @@ div.detail > div.detailpost > p{
   
 }
 
-div.detail > div.detailpost{
-  
-  border: 5px solid black;
-  
-  
-}
-
 div.detailpost > img {
   align-content: center;
-  
-  
 }
 
-@media only screen and (max-width: 600px){
-  div.detailpost > img {
-    object-fit: cover;
-    width: 100%;
-   
-  }
+div.detailpost > div {
+    padding:5px;
+    background-color:  rgba(60, 74, 80, 0.13);
 }
+
+
 
 @media only screen and (min-width: 600px){
   div.detailpost > img {
@@ -107,46 +105,43 @@ div.detailpost > img {
   }
 }
 
-@media only screen and (min-width: 768px){
-  div.detailpost > img {
-    object-fit: cover;
-    width: 100%;
-  }
 
-  h4{
-    font-size: 1.5rem;
-    
-  }
-
-  p{
-    font-size: 1rem;
-  }
-}
 
 @media only screen and (min-width: 992px){
+  div.detail {
+    display: flex;
+    justify-content: space-around;
+  }
+  
   div.detailpost {
     display:grid;
-    grid-template-columns: 0.5fr 4fr 1.5fr 0.5fr;
+    grid-template-columns: 3fr 1fr;
     grid-template-areas: 
-    ". title . ."
-    ". img comments ."
-    ". img comments ."
-    ". date . .";
-    grid-gap: 5px;
+    "title ."
+    "img comments"
+    "date .";
+    grid-gap: 0px;
+    width: 70%;
+    min-width: 900px;
+    border: 2px solid rgba(60, 74, 80, 0.13);
     
   }
+  
    div.detailpost > img {
-    height: 650px;
-    width: 100%;
     grid-area: img;
+    object-fit: cover;
+
   }
 
-  div.detailpost > span {
+  div.detailpost > div{
     grid-area: comments;
   }
 
   h4{
+    padding:0px;
+    margin:0px;
     font-size: 2rem;
+    grid-area: title;
   }
 
   p{
@@ -155,24 +150,6 @@ div.detailpost > img {
   }
 }
 
-@media only screen and (min-width: 1200px){
-  div.detail > img {
-    
-    object-fit: cover;
-    width: 50%;
-    
-  }
-
-  div.detail {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  div.detail > div.detailpost{
-    width: 750px;
-    
-  }
-}
 
 
 </style>

@@ -48,7 +48,10 @@ const router = new Router({
     {
       path:"/detail/post_id/:post_id",
       name:"detail",
-      component: Detail
+      component: Detail,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
