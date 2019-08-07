@@ -6,7 +6,7 @@
       <img v-bind:src ="post.img_url" alt='img' >
       </router-link>
       <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
-      <p>{{post.commentUsername}} : {{post.comment}}</p>
+      <p v-if="post.comments.length != 0"><span>{{post.comments[0].user_name}}</span>: {{post.comments[0].comment}}</p>
     </div>
   </div>
 </template>
@@ -41,17 +41,6 @@ export default {
       })
       .then((posts) => {
         this.posts = posts;
-        this.posts.forEach((post) => {
-          fetch(this.commentAPI+post.post_id)
-            .then((response) => {
-              return response.json();
-            })
-            .then((comment) => {
-              post.comment = comment.comment;
-              post.commentUsername = comment.user_name;
-            })
-            .catch((err) => console.error(err));
-        })
       })
       .catch((err) => console.error(err));
   }
@@ -88,12 +77,7 @@ div.home > div.post > p{
   
 }
 
-div.home > div.post{
-  
 
-  
-  
-}
 
 img {
   align-content: center;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.techelevator.exception.PostNotFoundException;
 import com.techelevator.exception.UserNotFoundException;
+import com.techelevator.model.CommentDao;
 import com.techelevator.model.Post;
 import com.techelevator.model.PostDao;
 
@@ -20,14 +21,21 @@ import com.techelevator.model.PostDao;
 public class PostController {
 
 	private PostDao postDao;
+	private CommentDao commentDao;
 	
-	public PostController(PostDao postDao) {
+	public PostController(PostDao postDao, CommentDao commentDao) {
 		this.postDao = postDao;
+		this.commentDao = commentDao;
 	}
 	
 	@GetMapping("/allposts")
 	public List<Post> getFeed() {
-		return postDao.getAllPosts();
+		List<Post> posts = postDao.getAllPosts();
+		for (Post post : posts) {
+			post.setComments(commentDao.getCommentsByPostId(post.getPost_id()));
+		}
+		
+		return posts;
 	}
 	
 	@GetMapping("/single_post/{post_id}")

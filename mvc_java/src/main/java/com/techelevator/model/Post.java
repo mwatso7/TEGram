@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Post {
 	private int post_id;
@@ -9,6 +10,7 @@ public class Post {
 	private String img_url;
 	private String thumbnail;
 	private String[] tags;
+	private List<Comment> comments;
 	
 	public int getPost_id() {
 		return post_id;
@@ -57,6 +59,15 @@ public class Post {
 	public void setTags(String[] tags) {
 		this.tags = tags;
 	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment>  comments) {
+		this.comments = comments;
+	}
+	
 	
 	
 }
