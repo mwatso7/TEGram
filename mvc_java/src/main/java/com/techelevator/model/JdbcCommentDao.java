@@ -35,7 +35,7 @@ public class JdbcCommentDao implements CommentDao{
 	@Override
 	public Comment getFirstCommentByPostId(int post_id) {
 		Comment theComment = new Comment();
-		String sqlSelectAllComments = "SELECT * FROM comments, post_comments_reference WHERE comments.comments_id = post_comments_reference.comment_id AND post_comments_reference.post_id = ? LIMIT 1";
+		String sqlSelectAllComments = "SELECT * FROM comments, post_comments_reference WHERE comments.comment_id = post_comments_reference.comment_id AND post_comments_reference.post_id = ? LIMIT 1";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectAllComments, post_id);
 		if (results.next()) {
 			theComment = mapRowToComment(results);

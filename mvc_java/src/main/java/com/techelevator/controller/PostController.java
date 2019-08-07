@@ -16,7 +16,7 @@ import com.techelevator.model.PostDao;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/api/post")
 public class PostController {
 
 	private PostDao postDao;
@@ -30,7 +30,7 @@ public class PostController {
 		return postDao.getAllPosts();
 	}
 	
-	@GetMapping("/post/{post_id}")
+	@GetMapping("/single_post/{post_id}")
 	public Post getPost(@PathVariable int post_id) throws PostNotFoundException {
 		Post post = postDao.getPostByPostId(post_id);
 		if (post != null) {
@@ -40,7 +40,7 @@ public class PostController {
 		}
 	}
 	
-	@GetMapping("/userposts/{user_id}")
+	@GetMapping("/user_posts/{user_id}")
 	public List<Post> getUserPosts(@PathVariable int user_id) throws UserNotFoundException {
 		List<Post> posts = postDao.getPostsByUserId(user_id);
 		if (posts != null) {
