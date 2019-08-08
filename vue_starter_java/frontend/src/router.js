@@ -31,6 +31,14 @@ const router = new Router({
       }
     },
     {
+      path: '/success',
+      name: 'success',
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: "/login",
       name: "login",
       component: Login,
@@ -71,6 +79,8 @@ router.beforeEach((to, from, next) => {
   const user = auth.getUser();
 
   // If it does and they are not logged in, send the user to "/login"
+
+
   if (requiresAuth && !user) {
     next("/login");
   } else {

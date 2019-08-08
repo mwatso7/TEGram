@@ -16,7 +16,8 @@ export default {
   },
   created(){
     auth.logout();
-    this.user = auth.getUser();
+    let status = false;
+    this.$emit('changeLogin', status);
   }
 }
 </script>
