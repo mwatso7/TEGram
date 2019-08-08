@@ -6,7 +6,7 @@
       <img v-bind:src ="post.img_url" alt='img' >
       </router-link>
       <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
-      <p v-if="post.comments.length != 0"><span>{{post.comments[0].user_name}}</span>: {{post.comments[0].comment}}</p>
+      <p v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</p>
     </div>
   </div>
 </template>
@@ -16,22 +16,12 @@ export default {
   name: "home",
   data() {
     return {
-      postAPI: "http://localhost:8080/capstone/api/post/allposts",
-      commentAPI: "http://localhost:8080/capstone/api/comment/first/",
+      postAPI: "http://localhost:8080/tegram/post/allposts",
       posts: []
     };
   },
   method: {
-/*     firstComment(id){
-      fetch(this.commentAPI+id)
-      .then((response) => {
-        return response.json();
-      })
-      .then((comment) => {
-        return comment.comment;
-      })
-      .catch((err) => console.error(err));
-    } */
+
   },
   created() {
     // load the reviews

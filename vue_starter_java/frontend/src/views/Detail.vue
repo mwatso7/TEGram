@@ -16,7 +16,7 @@ export default {
   name: "detail",
   data() {
     return {
-      postAPI: "http://localhost:8080/capstone/api/post/single_post/",
+      postAPI: "http://localhost:8080/tegram/post/single_post/",
       commentAPI: "http://localhost:8080/capstone/api/comment/all/",
       post: {},
       comments: []

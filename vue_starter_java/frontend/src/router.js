@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import auth from './auth'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import Logout from './views/Logout.vue'
 import Register from './views/Register.vue'
 import Detail from './views/Detail.vue'
 
@@ -33,6 +34,14 @@ const router = new Router({
       path: "/login",
       name: "login",
       component: Login,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/logout",
+      name: "logout",
+      component: Logout,
       meta: {
         requiresAuth: false
       }

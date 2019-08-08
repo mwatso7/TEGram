@@ -81,5 +81,8 @@ export default {
 </script>
 
 <style>
+#login{
+  margin-top: 300px;
+}
 
 </style>
