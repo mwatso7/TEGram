@@ -30,8 +30,9 @@
 						<value>/login</value>
 						<value>/register</value>
 						<value>/post/allposts</value>
-						<value>/post/single_post/1</value>
-						<value>/comment/all/1</value>
+						<value>/post/single_post/</value>
+						<value>/comment/all/</value>
+						<value>/tegram</value>
 					</list>
 				</property>
 			</bean>

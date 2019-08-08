@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.techelevator.exception.PostNotFoundException;
 import com.techelevator.exception.UserNotFoundException;
+import com.techelevator.model.Comment;
 import com.techelevator.model.CommentDao;
 import com.techelevator.model.Post;
 import com.techelevator.model.PostDao;
@@ -41,7 +42,10 @@ public class PostController {
 	@GetMapping("/single_post/{post_id}")
 	public Post getPost(@PathVariable int post_id) throws PostNotFoundException {
 		Post post = postDao.getPostByPostId(post_id);
-		if (post != null) {
+		List<Comment> comments = commentDao.getCommentsByPostId(post_id);
+
+		if (post != null && comments != null) {
+			post.setComments(comments);
 			return post;
 		} else {
 			throw new PostNotFoundException(post_id, "Post Not Found!");

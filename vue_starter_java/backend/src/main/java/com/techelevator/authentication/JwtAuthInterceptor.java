@@ -42,6 +42,7 @@ public class JwtAuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws IOException, ServletException {
 
+    	System.out.println(request.getHeaderNames());
         if (excludedUrls.contains(request.getRequestURI().replaceFirst(request.getContextPath(), ""))
                 || request.getMethod().equals("OPTIONS")) {
             return true;

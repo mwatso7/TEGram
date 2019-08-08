@@ -4,28 +4,37 @@
     <router-link to="/"></router-link>
     <h4>{{post.title}}</h4>
     <img v-bind:src ="post.img_url" alt='img'>
-    <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
-    <div><p v-for="comment in comments" v-bind:key="comment.id">{{comment.user_name}}: {{comment.comment}}</p></div>
+    <p>{{"/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
+    <div><p v-for="comment in post.comments" v-bind:key="comment.id">{{comment.username}}: {{comment.comment}}</p></div>
     <router-view/>
     </div>
   </div>
 </template>
 
 <script>
+import auth from '../auth'
+
 export default {
   name: "detail",
   data() {
     return {
       postAPI: "http://localhost:8080/tegram/post/single_post/",
-      commentAPI: "http://localhost:8080/tegram/comment/all/",
+      //commentAPI: "http://localhost:8080/tegram/comment/all/",
       post: {},
-      comments: []
+      //comments: []
     }
   },
 
 created() {
     // load the reviews
-    fetch(this.postAPI+this.$route.params.post_id)
+    console.log(auth.getToken());
+    let postURL = this.postAPI+this.$route.params.post_id;
+    fetch(postURL, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth.getToken()}`
+      },
+    })
       .then((response) => {
         return response.json();
       })
@@ -34,14 +43,14 @@ created() {
       })
       .catch((err) => console.error(err));
 
-      fetch(this.commentAPI+this.$route.params.post_id)
+      /* fetch(this.commentAPI+this.$route.params.post_id)
       .then((response) => {
         return response.json();
       })
       .then((comments) => {
         this.comments = comments;
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err)); */
   }
 
 }
