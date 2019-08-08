@@ -59,7 +59,7 @@ const router = new Router({
       name:"detail",
       component: Detail,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     }
   ]

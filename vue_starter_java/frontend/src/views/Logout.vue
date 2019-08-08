@@ -16,7 +16,7 @@ export default {
   },
   created(){
     auth.logout();
-    this.user = auth.getUser
+    this.user = auth.getUser();
   }
 }
 </script>

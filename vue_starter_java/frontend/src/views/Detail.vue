@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       postAPI: "http://localhost:8080/tegram/post/single_post/",
-      commentAPI: "http://localhost:8080/capstone/api/comment/all/",
+      commentAPI: "http://localhost:8080/tegram/comment/all/",
       post: {},
       comments: []
     }

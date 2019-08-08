@@ -2,25 +2,32 @@ package com.techelevator.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techelevator.authentication.AuthProvider;
 import com.techelevator.exception.PostNotFoundException;
 import com.techelevator.model.Comment;
 import com.techelevator.model.CommentDao;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/comment")
+@RequestMapping("/comment")
 public class CommentController {
 	
+	@Autowired
 	private CommentDao commentDao;
 	
-	public CommentController(CommentDao commentDao) {
+	@Autowired
+	private AuthProvider auth;
+	
+	public CommentController(CommentDao commentDao, AuthProvider auth) {
 		this.commentDao = commentDao;
+		this.auth = auth;
 	}
 	
 //	@GetMapping("/first/{post_id}")
