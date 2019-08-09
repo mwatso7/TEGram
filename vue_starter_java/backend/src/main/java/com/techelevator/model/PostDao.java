@@ -10,5 +10,5 @@ public interface PostDao {
 	
 	public List<Post> getPostsByUsername(String username);
 	
-	public boolean savePost(Post newPost, int user_id);
+	public boolean savePost(Post newPost);
 }

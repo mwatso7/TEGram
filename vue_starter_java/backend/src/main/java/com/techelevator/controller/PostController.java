@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techelevator.exception.PostNotFoundException;
@@ -14,6 +16,7 @@ import com.techelevator.model.Comment;
 import com.techelevator.model.CommentDao;
 import com.techelevator.model.Post;
 import com.techelevator.model.PostDao;
+import com.techelevator.model.User;
 
 
 @RestController
@@ -60,5 +63,17 @@ public class PostController {
 		} else {
 			throw new UserNotFoundException(username, "User Not Found!");
 		}
+	}
+	
+	@RequestMapping(path = "/addpost", method = RequestMethod.POST)
+    public void addPost(@RequestBody Post newPost) {
+//		String[] tagArr = tags.split(",");
+//		Post newPost = new Post();
+//		newPost.setTitle(title);
+//		newPost.setImg_url(img_url);
+//		newPost.setUsername(username);
+//		newPost.setTags(tagArr);
+		
+		postDao.savePost(newPost);
 	}
 }

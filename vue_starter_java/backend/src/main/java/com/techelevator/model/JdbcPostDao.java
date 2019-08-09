@@ -60,11 +60,14 @@ public class JdbcPostDao implements PostDao{
 	}
 
 	@Override
-	public boolean savePost(Post newPost, int user_id) {
-		String tagStr = newPost.getTags()[0];
-		
-		for (int i = 1; i < newPost.getTags().length; i++) {
-			tagStr += "," + newPost.getTags()[i];
+	public boolean savePost(Post newPost) {
+		String tagStr = new String();
+		if(newPost.getTags().length > 0) {
+			tagStr = newPost.getTags()[0];
+			
+			for (int i = 1; i < newPost.getTags().length; i++) {
+				tagStr += "," + newPost.getTags()[i];
+			}
 		}
 		
 		try{
