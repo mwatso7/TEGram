@@ -67,12 +67,6 @@ public class PostController {
 	
 	@RequestMapping(path = "/addpost", method = RequestMethod.POST)
     public void addPost(@RequestBody Post newPost) {
-//		String[] tagArr = tags.split(",");
-//		Post newPost = new Post();
-//		newPost.setTitle(title);
-//		newPost.setImg_url(img_url);
-//		newPost.setUsername(username);
-//		newPost.setTags(tagArr);
 		
 		postDao.savePost(newPost);
 	}

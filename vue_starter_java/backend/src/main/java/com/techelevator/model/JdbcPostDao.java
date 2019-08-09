@@ -61,7 +61,7 @@ public class JdbcPostDao implements PostDao{
 
 	@Override
 	public boolean savePost(Post newPost) {
-		String tagStr = new String();
+		String tagStr = "";
 		if(newPost.getTags().length > 0) {
 			tagStr = newPost.getTags()[0];
 			
@@ -71,9 +71,9 @@ public class JdbcPostDao implements PostDao{
 		}
 		
 		try{
-			int id = getNextId();
-			String sqlInsertPost = "INSERT INTO post(id, title, img_url, username, tags) VALUES (?,?,?,?,?)";
-			jdbcTemplate.update(sqlInsertPost, id, newPost.getTitle(), newPost.getImg_url(), newPost.getUsername(), tagStr);
+			//int id = getNextId();
+			String sqlInsertPost = "INSERT INTO post(title, img_url, username, tags) VALUES (?,?,?,?)";
+			jdbcTemplate.update(sqlInsertPost, newPost.getTitle(), newPost.getImg_url(), newPost.getUsername(), tagStr);
 		} catch (Exception e){
 			return false;
 		}

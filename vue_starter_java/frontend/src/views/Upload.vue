@@ -58,8 +58,12 @@ export default {
         uploadMultipe: false
       },
       post: {
-        image: "",
-        caption: ""
+        post_id: "",
+        title: "",
+        img_url: "",
+        username: "",
+        tags: [],
+        comments: []
       }
     };
   },
@@ -84,14 +88,14 @@ export default {
      * @function
      */
     getSuccess(file, response) {
-      this.post.image = response.secure_url;
+      this.post.img_url = response.secure_url;
     },
     /**
      * POSTs a new Post
      * @function
      */
     sharePhoto() {
-      fetch(`${process.env.VUE_APP_REMOTE_API}/posts`, {
+      fetch(`${process.env.VUE_APP_REMOTE_API}/post/addpost`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + auth.getToken(),
