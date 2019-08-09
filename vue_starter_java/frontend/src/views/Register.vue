@@ -81,4 +81,8 @@ export default {
 </script>
 
 <style>
+div#register {
+  margin-top: 250px;
+}
+
 </style>

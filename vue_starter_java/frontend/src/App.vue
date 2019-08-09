@@ -4,11 +4,17 @@
       <router-link to="/"><h1>TE-Gram</h1></router-link>
       <router-link v-if="!isLoggedIn" to="/login"><h5>login</h5></router-link>
       <router-link v-if="isLoggedIn" to="/logout"><h5>logout</h5></router-link>
+      <router-link v-if="isLoggedIn" to='/upload'><h5>Upload Picture!</h5></router-link>
+
   </div>
     <router-view/>
   </div>
 
 </template>
+
+
+
+
 
 <script>
 import auth from './auth'
@@ -28,6 +34,7 @@ export default {
     logoutUser(){
       auth.logout();
     }
+
   },
   created(){
     this.user = auth.getUser();

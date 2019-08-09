@@ -6,6 +6,7 @@ import Login from './views/Login.vue'
 import Logout from './views/Logout.vue'
 import Register from './views/Register.vue'
 import Detail from './views/Detail.vue'
+import Upload from './views/Upload.vue'
 
 Vue.use(Router)
 
@@ -67,7 +68,15 @@ const router = new Router({
       name:"detail",
       component: Detail,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/upload",
+      name: "upload",
+      component: Upload,
+      meta: {
+        requiresAuth: true
       }
     }
   ]
