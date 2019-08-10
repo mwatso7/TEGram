@@ -1,15 +1,21 @@
 <template>
   <div class="home">
-    <div v-for="post in filteredPost" v-bind:key="post.post_id" class="post">
-      {{post.username}} <h4>{{post.title}}</h4>
+    <div class="card" style="max-width: 600px; margin-bottom: 20px;" v-for="post in filteredPost" v-bind:key="post.post_id">
+      <div class="card-header">
+        <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/>{{post.username}} - {{post.title}}
+      </div>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
-      <img v-bind:src ="post.img_url" alt='img' >
+      <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
       </router-link>
-    <span v-for="tag in post.tags" v-bind:key="tag">
-      {{tag}}
-    </span>  
-      <p v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</p>
-      <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
+      <div class="card-text" style="padding-left: 10px;">
+      <i class="fas fa-heart"></i>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</li>
+      </ul>
+      <div class="card-footer">
+        <small class="text-muted">{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</small>
+      </div>
     </div>
   </div>
 </template>

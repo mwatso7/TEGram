@@ -82,7 +82,8 @@ export default {
 
 <style>
 #login{
-  margin-top: 300px;
+  margin-top: 130px;
+  width: 300px;
 }
 
 </style>
