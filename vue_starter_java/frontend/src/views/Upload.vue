@@ -22,11 +22,19 @@
       ></vue-dropzone>
       <input
         type="text"
-        name="caption"
-        id="caption"
-        v-model="post.caption"
+        name="title"
+        id="title"
+        v-model="post.title"
         autocomplete="off"
         placeholder="Add a caption..."
+      />
+      <input
+        type="text"
+        name="tags"
+        id="tags"
+        v-model="tags"
+        autocomplete="off"
+        placeholder="Add Hashtags..."
       />
       <div class="form-actions">
         <button v-bind:disabled="!canPost" id="share">Share</button>
@@ -64,12 +72,13 @@ export default {
         username: "",
         tags: [],
         comments: []
-      }
+      },
+      tags: ""
     };
   },
   computed: {
     canPost() {
-      return this.post.caption && this.post.image;
+      return this.post.title && this.post.img_url;
     }
   },
   methods: {
@@ -95,6 +104,7 @@ export default {
      * @function
      */
     sharePhoto() {
+      this.post.tags = this.tags.split(",");
       fetch(`${process.env.VUE_APP_REMOTE_API}/post/addpost`, {
         method: "POST",
         headers: {

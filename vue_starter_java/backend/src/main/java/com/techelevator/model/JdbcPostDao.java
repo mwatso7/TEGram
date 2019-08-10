@@ -71,7 +71,7 @@ public class JdbcPostDao implements PostDao{
 		}
 		
 		try{
-			//int id = getNextId();
+			
 			String sqlInsertPost = "INSERT INTO post(title, img_url, username, tags) VALUES (?,?,?,?)";
 			jdbcTemplate.update(sqlInsertPost, newPost.getTitle(), newPost.getImg_url(), newPost.getUsername(), tagStr);
 		} catch (Exception e){
@@ -81,17 +81,17 @@ public class JdbcPostDao implements PostDao{
 		
 	}
 	
-	private int getNextId() {
-		String sqlSelectNextId = "SELECT NEXTVAL('post_post_id_seq')";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectNextId);
-		int id;
-		if (results.next()) {
-			id = results.getInt(1);
-		} else {
-			throw new RuntimeException("Something strange happened, unable to select next forum post id from sequence");
-		}
-		return id;
-	}
+//	private int getNextId() {
+//		String sqlSelectNextId = "SELECT NEXTVAL('post_post_id_seq')";
+//		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectNextId);
+//		int id;
+//		if (results.next()) {
+//			id = results.getInt(1);
+//		} else {
+//			throw new RuntimeException("Something strange happened, unable to select next forum post id from sequence");
+//		}
+//		return id;
+//	}
 	
 	private Post mapRowToPost(SqlRowSet row) {
 		Post thePost = new Post();

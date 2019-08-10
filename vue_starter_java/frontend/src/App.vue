@@ -26,8 +26,7 @@ export default {
   },
   data(){
     return {
-      user: auth.getUser(),
-      isLoggedIn: false
+      isLoggedIn: auth.getUser()
     }
   },
   method:{

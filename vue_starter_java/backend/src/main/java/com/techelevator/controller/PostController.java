@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techelevator.authentication.AuthProvider;
+import com.techelevator.authentication.RequestAuthProvider;
 import com.techelevator.exception.PostNotFoundException;
 import com.techelevator.exception.UserNotFoundException;
 import com.techelevator.model.Comment;
@@ -27,9 +30,13 @@ public class PostController {
 	private PostDao postDao;
 	private CommentDao commentDao;
 	
-	public PostController(PostDao postDao, CommentDao commentDao) {
+	@Autowired
+	private AuthProvider auth;
+	
+	public PostController(PostDao postDao, CommentDao commentDao, AuthProvider auth) {
 		this.postDao = postDao;
 		this.commentDao = commentDao;
+		this.auth = auth;
 	}
 	
 	@GetMapping("/allposts")
@@ -67,7 +74,7 @@ public class PostController {
 	
 	@RequestMapping(path = "/addpost", method = RequestMethod.POST)
     public void addPost(@RequestBody Post newPost) {
-		
+		newPost.setUsername(auth.getCurrentUser().getUsername());
 		postDao.savePost(newPost);
 	}
 }
