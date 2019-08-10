@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <div v-for="post in posts" v-bind:key="post.post_id" class="post">
-      <b>{{post.username}}</b> <h4>{{post.title}}</h4>
+    <div v-for="post in filteredPost" v-bind:key="post.post_id" class="post">
+      <a href="#" v-on:click="userSrch = post.username">{{post.username}}</a> <h4>{{post.title}}</h4>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img v-bind:src ="post.img_url" alt='img' >
       </router-link>
@@ -20,8 +20,16 @@ export default {
   data() {
     return {
       postAPI: "http://localhost:8080/tegram/post/allposts",
-      posts: []
+      posts: [],
+      userSrch: ""
     };
+  },
+  computed: {
+    filteredPost(vm){
+      return vm.posts.filter((pst) => {
+        return (pst.username == vm.userSrch || vm.userSrch == "");
+      });
+    }
   },
   method: {
 
