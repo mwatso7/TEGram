@@ -7,6 +7,7 @@ import Logout from './views/Logout.vue'
 import Register from './views/Register.vue'
 import Detail from './views/Detail.vue'
 import Upload from './views/Upload.vue'
+import UserPosts from './views/UserPosts.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,14 @@ const router = new Router({
       component: Home,
       meta: {
         requiresAuth: false
+      }
+    },
+    {
+      path: '/user_posts/:username',
+      name: 'user_posts',
+      component: UserPosts,
+      meta: {
+        requiresAuth: true
       }
     },
     {

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div v-for="post in filteredPost" v-bind:key="post.post_id" class="post">
-      <router-link :to="'/user_posts/' + post.username">{{post.username}}</router-link> <h4>{{post.title}}</h4>
+      {{post.username}} <h4>{{post.title}}</h4>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img v-bind:src ="post.img_url" alt='img' >
       </router-link>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "home",
+  name: "user-posts",
   data() {
     return {
       postAPI: "http://localhost:8080/tegram/post/allposts",
@@ -35,6 +35,7 @@ export default {
 
   },
   created() {
+    this.userSrch = this.$route.params.username;
     // load the reviews
     fetch(this.postAPI)
       .then((response) => {
@@ -175,4 +176,3 @@ img {
   }
 }
 </style>
-
