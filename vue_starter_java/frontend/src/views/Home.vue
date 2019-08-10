@@ -1,12 +1,15 @@
 <template>
   <div class="home">
     <div v-for="post in posts" v-bind:key="post.post_id" class="post">
-      <h4>{{post.title}}</h4>
+      <b>{{post.username}}</b> <h4>{{post.title}}</h4>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img v-bind:src ="post.img_url" alt='img' >
       </router-link>
-      <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
+    <span v-for="tag in post.tags" v-bind:key="tag">
+      {{tag}}
+    </span>  
       <p v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</p>
+      <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
     </div>
   </div>
 </template>
