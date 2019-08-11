@@ -1,6 +1,8 @@
 <template>
   <div id="logout">
-    <h3>You've been successfully logged out</h3>
+    <div class="alert alert-success logout" role="alert">
+        You have been logged out successfully.
+      </div>
   </div>
 </template>
 
@@ -23,8 +25,16 @@ export default {
 </script>
 
 <style>
+
 #logout{
-  margin-top: 300px;
+  width:100%;
+  display:flex;
+  justify-content: space-around;
+}
+.logout{
+  margin-top: 130px;
+  width: 80%; 
+  max-width: 400px;
 }
 
 </style>

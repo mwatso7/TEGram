@@ -10,7 +10,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
+    "jquery": "^3.4.1",
+    "moment": "^2.24.0",
+    "popper": "^1.0.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vue2-dropzone": "^3.6.0"

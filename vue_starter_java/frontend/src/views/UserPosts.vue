@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="card" style="max-width: 600px; margin-bottom: 20px;" v-for="post in filteredPost" v-bind:key="post.post_id">
+    <div class="post card" style="margin-bottom: 20px; padding:0px;" v-for="post in filteredPost" v-bind:key="post.post_id">
       <div class="card-header">
         <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/>{{post.username}} - {{post.title}}
       </div>

@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="card" style="max-width: 600px; margin-bottom: 20px;" v-for="post in filteredPost" v-bind:key="post.post_id">
+    <div class="post card" style="margin-bottom: 20px; padding:0px;" v-for="post in filteredPost" v-bind:key="post.post_id">
       <div class="card-header">
-        <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/><router-link :to="'/user_posts/' + post.username">{{post.username}}</router-link> - {{post.title}}
+        <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/><router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + post.username">{{post.username}}</router-link> - {{post.title}}
       </div>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
@@ -14,13 +14,16 @@
         <li class="list-group-item" v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</li>
       </ul>
       <div class="card-footer">
-        <small class="text-muted">{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</small>
+        <small class="text-muted">Posted {{ post.date_time | moment }}</small>
       </div>
     </div>
   </div>
 </template>
+<script src="../node_modules/moment/moment.js"></script>
 
 <script>
+
+window.moment = require('moment');
 export default {
   name: "home",
   data() {
@@ -37,8 +40,16 @@ export default {
       });
     }
   },
+  filters: {
+  moment: function (date) {
+    let dateStr = date.year + "-" + date.monthValue + "-" + date.dayOfMonth + " " + date.hour + ":" + date.minute;
+    return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
+  }
+  },
   method: {
-
+    datefrom(date_time){
+       return moment(date_time).fromNow()
+    }
   },
   created() {
     // load the reviews
@@ -69,6 +80,7 @@ div.home {
 
 a {
   text-decoration: none;
+  color: #00ADEE;
   
 }
 
@@ -81,12 +93,6 @@ h1 {
 h4 {
   color:green;
   text-align: left;
-  
-}
-
-body > div#app > div#nav{
-  border-bottom: 1px solid black;
-  background-color: white;
   
 }
 
@@ -173,9 +179,6 @@ img {
   }
 
   div.home > div.post{
-    border: 2px solid rgba(60, 74, 80, 0.13);
-    margin: 10px;
-    padding: 10px;
     width: 600px;
   }
 }

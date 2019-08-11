@@ -1,6 +1,6 @@
 <template>
   <div id="register" class="text-center">
-    <form class="form-register" @submit.prevent="register">
+    <form class="form-register" style="width: 80%; max-width: 400px;" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         There were problems registering this user.
@@ -82,7 +82,10 @@ export default {
 
 <style>
 div#register {
-  margin-top: 250px;
+  margin-top: 130px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
 </style>
