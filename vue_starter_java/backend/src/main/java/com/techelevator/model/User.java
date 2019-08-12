@@ -10,6 +10,9 @@ import org.hibernate.validator.constraints.NotBlank;
 public class User {
     @NotBlank(message = "Username is required")
     private String username;
+    
+    @NotBlank(message = "Email is required")
+    private String email;
 
     @NotBlank(message = "Role is required")
     private String role;
@@ -28,6 +31,8 @@ public class User {
         }
         return true;
     }
+    
+    private boolean isDisabled;
 
     public String getPassword() {
         return password;
@@ -86,4 +91,20 @@ public class User {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
+    
+    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public boolean isDisabled() {
+		return isDisabled;
+	}
+
+	public void setDisabled(boolean isDisabled) {
+		this.isDisabled = isDisabled;
+	}
 }

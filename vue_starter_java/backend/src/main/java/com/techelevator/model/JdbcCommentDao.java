@@ -23,7 +23,7 @@ public class JdbcCommentDao implements CommentDao{
 	@Override
 	public List<Comment> getCommentsByPostId(int post_id) {
 		List<Comment> comments = new ArrayList<Comment>();
-		String sqlSelectAllComments = "SELECT * FROM comments, post_comments_reference WHERE comments.comment_id = post_comments_reference.comment_id AND post_comments_reference.post_id = ?";
+		String sqlSelectAllComments = "SELECT * FROM comments WHERE post_id = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectAllComments, post_id);
 		while (results.next()) {
 			Comment theComment = mapRowToComment(results);
@@ -46,6 +46,7 @@ public class JdbcCommentDao implements CommentDao{
 	private Comment mapRowToComment(SqlRowSet row) {
 		Comment theComment = new Comment();
 		theComment.setComment_id(row.getInt("comment_id"));
+		theComment.setPost_id(row.getInt("post_id"));
 		theComment.setUsername(row.getString("username"));
 		theComment.setDate_time(row.getTimestamp("date_time").toLocalDateTime());
 		theComment.setComment(row.getString("comment"));
