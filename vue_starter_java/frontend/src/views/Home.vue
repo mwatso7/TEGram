@@ -8,13 +8,13 @@
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
       </router-link>
       <div class="card-text" style="padding-left: 10px;">
-      <i class="fas fa-heart"></i>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item" v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</li>
       </ul>
       <div class="card-footer">
         <small class="text-muted">Posted {{ post.date_time | moment }}</small>
+        <i class="far fa-heart"></i>
       </div>
     </div>
   </div>
@@ -107,14 +107,20 @@ img {
   
 }
 
+div.card-footer{
+  display: flex;
+  justify-content: space-between;
+}
+
+div.card-footer > i{
+  
+}
+
 @media only screen and (max-width: 600px){
   img {
     object-fit: cover;
     width: 100%;
    
-  }
-  div.home > div.post{
-
   }
 }
 
