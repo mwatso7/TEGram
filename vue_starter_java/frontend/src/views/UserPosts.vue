@@ -14,13 +14,17 @@
         <li class="list-group-item" v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</li>
       </ul>
       <div class="card-footer">
-        <small class="text-muted">{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</small>
+        <small class="text-muted">Posted {{ post.date_time | moment }}</small>
       </div>
     </div>
   </div>
 </template>
+<script src="../node_modules/moment/moment.js"></script>
+
+
 
 <script>
+window.moment = require('moment');
 export default {
   name: "user-posts",
   data() {
@@ -29,6 +33,12 @@ export default {
       posts: [],
       userSrch: ''
     };
+  },
+  filters: {
+  moment: function (date) {
+    let dateStr = date.year + "-" + date.monthValue + "-" + date.dayOfMonth + " " + date.hour + ":" + date.minute;
+    return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
+  }
   },
   computed: {
     filteredPost(vm){

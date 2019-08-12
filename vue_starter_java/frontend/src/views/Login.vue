@@ -10,7 +10,7 @@
       </div>
       <label for="username" class="sr-only">Username</label>
       <input
-        type="text"
+        type="email"
         id="username"
         class="form-control"
         placeholder="Username"

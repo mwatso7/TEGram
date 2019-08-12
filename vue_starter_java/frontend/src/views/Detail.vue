@@ -4,14 +4,16 @@
     <router-link to="/"></router-link>
     <h4>{{post.title}}</h4>
     <img v-bind:src ="post.img_url" alt='img'>
-    <p>{{post.date_time.monthValue + "/" + post.date_time.dayOfMonth + "/" + post.date_time.year + " " + post.date_time.hour + ":" + post.date_time.minute}}</p>
+    <p>Posted {{ post.date_time | moment }}</p>
     <div><p v-for="comment in post.comments" v-bind:key="comment.id">{{comment.username}}: {{comment.comment}}</p></div>
     <router-view/>
     </div>
   </div>
 </template>
+<script src="../node_modules/moment/moment.js"></script>
 
 <script>
+window.moment = require('moment');
 import auth from '../auth'
 
 export default {
@@ -23,6 +25,12 @@ export default {
       post: {},
       //comments: []
     }
+  },
+  filters: {
+  moment: function (date) {
+    let dateStr = date.year + "-" + date.monthValue + "-" + date.dayOfMonth + " " + date.hour + ":" + date.minute;
+    return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
+  }
   },
 
 created() {
