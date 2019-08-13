@@ -104,4 +104,106 @@ public class JdbcPostDao implements PostDao{
 		return thePost;
 	}
 
+	@Override
+	public boolean saveLike(int id, String username) {
+		try {
+		String saveToLikesTable = "INSERT INTO likes(post_id, username) VALUES(?, ?)";
+		jdbcTemplate.update(saveToLikesTable, id, username);
+		
+		}catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean deleteLike(int id, String username) {
+		try {
+			String deleteFromLikesTable = "DELETE FROM likes WHERE post_id = ? AND username = ?";
+			jdbcTemplate.update(deleteFromLikesTable, id, username);
+		}catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int numberOfLikesOnPost(int id) {
+		
+		String pullLikesFromTable = "SELECT post_id, COUNT(post_id) FROM likes WHERE post_id = ? GROUP BY post_id";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(pullLikesFromTable, id);
+		
+		
+		return results.getInt("count");
+	}
+
+	@Override
+	public boolean saveFavorite(int id, String username) {
+		try {
+			String saveToFavoritesTable = "INSERT INTO favorites(post_id, username) VALUES(?, ?)";
+			jdbcTemplate.update(saveToFavoritesTable, id, username);
+			
+			}catch (Exception e) {
+				return false;
+			}
+			return true;
+		
+		
+	}
+
+	@Override
+	public boolean deleteFavorite(int id, String username) {
+		try {
+			String deleteFromLikesTable = "DELETE FROM favorites WHERE post_id = ? AND username = ?";
+			jdbcTemplate.update(deleteFromLikesTable, id, username);
+		}catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<Post> favoritesFromUser(String username) {
+		List<Post> listOfFavorites = new ArrayList<Post>();
+		try {
+			String favoritesByUser = "SELECT * FROM post WHERE post_id IN (Select post_id FROM favorites WHERE username = ?)";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(favoritesByUser, username);
+			while(results.next()) {
+				Post thePost = mapRowToPost(results);
+				listOfFavorites.add(thePost);
+			}
+		}catch (Exception e) {
+			return null;
+		}
+		
+		return listOfFavorites;
+	}
+
+	@Override
+	public boolean isLikedByUser(int id, String username) {
+		try {
+			String doesLikeExist = "SELECT * FROM likes Where post_id = ? AND username = ?";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(doesLikeExist, id, username);
+			if(results == null) {
+				return false;
+			} 
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isFavoritedFromUser(int id, String username) {
+		try {
+			String doesFavoriteExist = "SELECT * FROM favorites Where post_id = ? AND username = ?";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(doesFavoriteExist, id, username);
+			if(results == null) {
+				return false;
+			} 
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -11,6 +11,9 @@ public class Post {
 	private String username;
 	private String[] tags;
 	private List<Comment> comments;
+	private int numberOfLikes;
+	private boolean isLiked;
+	private boolean isFavorited;
 	
 	public int getPost_id() {
 		return post_id;
@@ -66,6 +69,30 @@ public class Post {
 
 	public void setComments(List<Comment>  comments) {
 		this.comments = comments;
+	}
+
+	public int getNumberOfLikes() {
+		return numberOfLikes;
+	}
+
+	public void setNumberOfLikes(int numberOfLikes) {
+		this.numberOfLikes = numberOfLikes;
+	}
+
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+
+	public boolean isFavorited() {
+		return isFavorited;
+	}
+
+	public void setFavorited(boolean isFavorited) {
+		this.isFavorited = isFavorited;
 	}
 	
 	

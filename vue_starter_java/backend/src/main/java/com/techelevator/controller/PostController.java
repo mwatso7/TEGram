@@ -44,6 +44,14 @@ public class PostController {
 		List<Post> posts = postDao.getAllPosts();
 		for (Post post : posts) {
 			post.setComments(commentDao.getCommentsByPostId(post.getPost_id()));
+			post.setNumberOfLikes(postDao.numberOfLikesOnPost(post.getPost_id()));
+			if(auth.getCurrentUser() == null) {
+				post.setLiked(false);
+				post.setFavorited(false);
+			}else {
+				post.setLiked(postDao.isLikedByUser(post.getPost_id(), auth.getCurrentUser().getUsername()));
+				post.setFavorited(postDao.isFavoritedFromUser(post.getPost_id(), auth.getCurrentUser().getUsername()));
+			}
 		}
 		
 		return posts;
@@ -76,5 +84,35 @@ public class PostController {
     public void addPost(@RequestBody Post newPost) {
 		newPost.setUsername(auth.getCurrentUser().getUsername());
 		postDao.savePost(newPost);
+	}
+	
+	@GetMapping("/user_favorites/{username}")
+	public List<Post> getUserFavorites(@PathVariable String username) throws UserNotFoundException {
+		List<Post> posts = postDao.favoritesFromUser(username);
+		if (posts != null) {
+			return posts;
+		} else {
+			throw new UserNotFoundException(username, "User Not Found!");
+		}
+	}
+	
+	@RequestMapping(path = "/addlike", method = RequestMethod.POST)
+    public void addLike(@RequestBody String username, @RequestBody int post_id) {
+		postDao.saveLike(post_id, username);
+	}
+	
+	@RequestMapping(path = "/addfavorite", method = RequestMethod.POST)
+    public void addFavorite(@RequestBody String username, @RequestBody int post_id) {
+		postDao.saveFavorite(post_id, username);
+	}
+	
+	@RequestMapping(path = "/deletelike", method = RequestMethod.DELETE)
+    public void deleteLike(@RequestBody String username, @RequestBody int post_id) {
+		postDao.deleteLike(post_id, username);
+	}
+	
+	@RequestMapping(path = "/deletelike", method = RequestMethod.DELETE)
+    public void deleteFavorite(@RequestBody String username, @RequestBody int post_id) {
+		postDao.deleteFavorite(post_id, username);
 	}
 }
