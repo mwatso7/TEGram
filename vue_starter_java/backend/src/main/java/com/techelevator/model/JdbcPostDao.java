@@ -130,11 +130,14 @@ public class JdbcPostDao implements PostDao{
 	@Override
 	public int numberOfLikesOnPost(int id) {
 		
-		String pullLikesFromTable = "SELECT post_id, COUNT(post_id) FROM likes WHERE post_id = ? GROUP BY post_id";
+		String pullLikesFromTable = "SELECT post_id, COUNT(post_id) as count FROM likes WHERE post_id = ? GROUP BY post_id";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(pullLikesFromTable, id);
+		if(results.next()) {
+			return results.getInt("count");
+		}
+		return 0;
 		
 		
-		return results.getInt("count");
 	}
 
 	@Override
@@ -184,13 +187,15 @@ public class JdbcPostDao implements PostDao{
 		try {
 			String doesLikeExist = "SELECT * FROM likes Where post_id = ? AND username = ?";
 			SqlRowSet results = jdbcTemplate.queryForRowSet(doesLikeExist, id, username);
-			if(results == null) {
-				return false;
+			if(results.next()) {
+				return true;
 			} 
+			else {
+				return false;
+			}
 		}catch(Exception e) {
 			return false;
 		}
-		return true;
 	}
 
 	@Override
@@ -198,12 +203,14 @@ public class JdbcPostDao implements PostDao{
 		try {
 			String doesFavoriteExist = "SELECT * FROM favorites Where post_id = ? AND username = ?";
 			SqlRowSet results = jdbcTemplate.queryForRowSet(doesFavoriteExist, id, username);
-			if(results == null) {
+			if(results.next()) {
+				return true;
+			} else {
 				return false;
-			} 
+			}
 		}catch(Exception e) {
 			return false;
 		}
-		return true;
+		
 	}
 }

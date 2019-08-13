@@ -45,13 +45,21 @@ public class PostController {
 		for (Post post : posts) {
 			post.setComments(commentDao.getCommentsByPostId(post.getPost_id()));
 			post.setNumberOfLikes(postDao.numberOfLikesOnPost(post.getPost_id()));
-			if(auth.getCurrentUser() == null) {
-				post.setLiked(false);
-				post.setFavorited(false);
-			}else {
-				post.setLiked(postDao.isLikedByUser(post.getPost_id(), auth.getCurrentUser().getUsername()));
-				post.setFavorited(postDao.isFavoritedFromUser(post.getPost_id(), auth.getCurrentUser().getUsername()));
-			}
+			post.setLiked(false);
+			post.setFavorited(false);
+		}
+		
+		return posts;
+	}
+	
+	@GetMapping("/allpostsauth")
+	public List<Post> getAuthFeed() {
+		List<Post> posts = postDao.getAllPosts();
+		for (Post post : posts) {
+			post.setComments(commentDao.getCommentsByPostId(post.getPost_id()));
+			post.setNumberOfLikes(postDao.numberOfLikesOnPost(post.getPost_id()));
+			post.setLiked(postDao.isLikedByUser(post.getPost_id(), auth.getCurrentUser().getUsername()));
+			post.setFavorited(postDao.isFavoritedFromUser(post.getPost_id(), auth.getCurrentUser().getUsername()));
 		}
 		
 		return posts;
@@ -97,22 +105,22 @@ public class PostController {
 	}
 	
 	@RequestMapping(path = "/addlike", method = RequestMethod.POST)
-    public void addLike(@RequestBody String username, @RequestBody int post_id) {
-		postDao.saveLike(post_id, username);
+    public void addLike(@RequestBody int post_id) {
+		postDao.saveLike(post_id, auth.getCurrentUser().getUsername());
 	}
 	
 	@RequestMapping(path = "/addfavorite", method = RequestMethod.POST)
-    public void addFavorite(@RequestBody String username, @RequestBody int post_id) {
-		postDao.saveFavorite(post_id, username);
+    public void addFavorite(@RequestBody int post_id) {
+		postDao.saveFavorite(post_id, auth.getCurrentUser().getUsername());
 	}
 	
 	@RequestMapping(path = "/deletelike", method = RequestMethod.DELETE)
-    public void deleteLike(@RequestBody String username, @RequestBody int post_id) {
-		postDao.deleteLike(post_id, username);
+    public void deleteLike(@RequestBody int post_id) {
+		postDao.deleteLike(post_id, auth.getCurrentUser().getUsername());
 	}
 	
-	@RequestMapping(path = "/deletelike", method = RequestMethod.DELETE)
-    public void deleteFavorite(@RequestBody String username, @RequestBody int post_id) {
-		postDao.deleteFavorite(post_id, username);
+	@RequestMapping(path = "/deletefavorite", method = RequestMethod.DELETE)
+    public void deleteFavorite(@RequestBody int post_id) {
+		postDao.deleteFavorite(post_id, auth.getCurrentUser().getUsername());
 	}
 }
