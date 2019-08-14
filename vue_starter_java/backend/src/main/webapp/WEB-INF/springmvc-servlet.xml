@@ -30,7 +30,6 @@
 						<value>/login</value>
 						<value>/register</value>
 						<value>/post/allposts</value>
-						<value>/post/single_post/</value>
 						<value>/comment/all/</value>
 						<value>/tegram</value>
 					</list>

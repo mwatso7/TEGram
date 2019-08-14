@@ -47,10 +47,10 @@ export default {
     }
   },
   filters: {
-  moment: function (date) {
-    let dateStr = date.year + "-" + date.monthValue + "-" + date.dayOfMonth + " " + date.hour + ":" + date.minute;
-    return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
-  }
+    moment: function (date) {
+      let dateStr = date.year + "-" + date.monthValue + "-" + date.dayOfMonth + " " + date.hour + ":" + date.minute;
+      return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
+    }
   },
   methods: {
     toggleLike(post_id, event){

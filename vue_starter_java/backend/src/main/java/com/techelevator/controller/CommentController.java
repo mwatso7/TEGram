@@ -40,6 +40,8 @@ public class CommentController {
 //		}
 //	}
 	
+	
+	
 	@GetMapping("/all/{post_id}")
 	public List<Comment> getAllComments(@PathVariable int post_id) throws PostNotFoundException {
 		List<Comment> comments = commentDao.getCommentsByPostId(post_id);

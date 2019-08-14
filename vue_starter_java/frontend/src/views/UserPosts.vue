@@ -7,14 +7,15 @@
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
       </router-link>
-      <div class="card-text" style="padding-left: 10px;">
-      <i class="fas fa-heart"></i>
-      </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item" v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</li>
       </ul>
       <div class="card-footer">
         <small class="text-muted">Posted {{ post.date_time | moment }}</small>
+        <span>
+        <i v-on:click.prevent="toggleLike(post.post_id,$event)" :class="{'fas fa-heart' : post.liked, 'far fa-heart' : !post.liked}"></i><span class="badge badge-light">{{post.numberOfLikes}}</span>
+        <i v-on:click.prevent="toggleFavorite(post.post_id,$event)" class="far fa-star" :class="{'fas fa-star' : post.favorited, 'far fa-star' : !post.favorited}"></i>
+        </span>
       </div>
     </div>
   </div>
@@ -24,12 +25,13 @@
 
 
 <script>
+import auth from '../auth';
 window.moment = require('moment');
 export default {
   name: "user-posts",
   data() {
     return {
-      postAPI: "http://localhost:8080/tegram/post/allposts",
+      postAPI: "http://localhost:8080/tegram/post",
       posts: [],
       userSrch: ''
     };
@@ -47,13 +49,107 @@ export default {
       });
     }
   },
-  method: {
-
+  methods: {
+    toggleLike(post_id, event){
+      const arrIndex = this.posts.findIndex((item) => item.post_id == post_id);
+      if(!this.posts[arrIndex].liked){
+        fetch(this.postAPI+"/addlike", { 
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].liked = !this.posts[arrIndex].liked;
+            this.posts[arrIndex].numberOfLikes++;
+            const likeIcon = event.target
+            likeIcon.classList.remove('far');
+            likeIcon.classList.add('fas');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       } else {
+         fetch(this.postAPI+"/deletelike", { 
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].liked = !this.posts[arrIndex].liked;
+            this.posts[arrIndex].numberOfLikes--;
+            const likeIcon = event.target
+            likeIcon.classList.remove('fas');
+            likeIcon.classList.add('far');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       }
+    },
+    toggleFavorite(post_id, event){
+      const arrIndex = this.posts.findIndex((item) => item.post_id == post_id);
+      if(!this.posts[arrIndex].favorited){
+        fetch(this.postAPI+"/addfavorite", { 
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].favorited = !this.posts[arrIndex].favorited;
+            const favoriteIcon = event.target
+            favoriteIcon.classList.remove('far');
+            favoriteIcon.classList.add('fas');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       } else {
+         fetch(this.postAPI+"/deletefavorite", { 
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].favorited = !this.posts[arrIndex].favorited;
+            const favoriteIcon = event.target
+            favoriteIcon.classList.remove('fas');
+            favoriteIcon.classList.add('far');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       }
+    }
   },
   created() {
     this.userSrch = this.$route.params.username;
     // load the reviews
-    fetch(this.postAPI)
+    fetch(this.postAPI + "/allpostsauth", { 
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+      }})
       .then((response) => {
         return response.json();
       })

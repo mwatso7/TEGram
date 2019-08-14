@@ -12,50 +12,39 @@
                 <div class="bpad col-lg-4" >
                   <div class="detailBox">
     <div class="titleBox">
-      <label>Comment Box</label>
-        <button type="button" class="close" aria-hidden="true">&times;</button>
+      <label>Comments</label>
     </div>
     <div class="actionBox">
         <ul class="commentList">
-            <li>
+            <li v-for="aComment in post.comments" v-bind:key="aComment.id">
                 <div class="commenterImage">
-                  <img src="http://placekitten.com/50/50" />
+                  <router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + aComment.username">{{aComment.username}}</router-link>
+                  <!-- <img src="http://placekitten.com/50/50" /> -->
                 </div>
                 <div class="commentText">
-                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+                    <p class="">{{aComment.comment}}</p> <span class="date sub-text">{{ aComment.date_time | moment }}</span>
 
                 </div>
             </li>
-            <li>
-                <div class="commenterImage">
-                  <img src="http://placekitten.com/45/45" />
-                </div>
-                <div class="commentText">
-                    <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
-
-                </div>
-            </li>
-            <li>
-                <div class="commenterImage">
-                  <img src="http://placekitten.com/40/40" />
-                </div>
-                <div class="commentText">
-                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
-
-                </div>
-            </li>
-            <p v-for="comment in post.comments" v-bind:key="comment.id">{{comment.username}}: {{comment.comment}}</p>
         </ul>
         
     </div>
     
     </div>
-        <form class="form-inline" role="form">
+        <form class="form-inline" role="form" v-on:submit.prevent="addComment">
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="Your comments" />
+                <input
+                  class="form-control"
+                  type="text"
+                  name="comment"
+                  id="comment"
+                  v-model="comment.comment"
+                  autocomplete="off"
+                  placeholder="Add a comment..."
+            />
             </div>
             <div class="form-group">
-                <button class="btn btn-default">Add</button>
+                <button v-bind:disabled="!canAdd" class="btn btn-default">Add</button>
             </div>
         </form>
                 </div>
@@ -82,23 +71,139 @@ export default {
   name: "detail",
   data() {
     return {
-      postAPI: "http://localhost:8080/tegram/post/single_post/",
-      //commentAPI: "http://localhost:8080/tegram/comment/all/",
+      postAPI: "http://localhost:8080/tegram/post",
       post: {},
-      //comments: []
+      comment: {
+        comment_id: "",
+        post_id: "",
+        username: "",
+        comment: ""
+      }
+    }
+  },
+  computed: {
+    canAdd() {
+      return this.comment.comment;
+    }
+  },
+  methods: {
+    addComment(){
+      fetch(`${this.postAPI}/addcomment`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + auth.getToken(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.comment)
+      })
+        .then(response => {
+          if (response.ok) {
+            this.$router.push("/");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    toggleLike(post_id, event){
+      if(!this.post.liked){
+        fetch(this.postAPI+"/addlike", { 
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.post.post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.post.liked = !this.post.liked;
+            this.post.numberOfLikes++;
+            const likeIcon = event.target
+            likeIcon.classList.remove('far');
+            likeIcon.classList.add('fas');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       } else {
+         fetch(this.postAPI+"/deletelike", { 
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.post.post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.post.liked = !this.post.liked;
+            this.post.numberOfLikes--;
+            const likeIcon = event.target
+            likeIcon.classList.remove('fas');
+            likeIcon.classList.add('far');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       }
+    },
+    toggleFavorite(post_id, event){
+      if(!this.post.favorited){
+        fetch(this.postAPI+"/addfavorite", { 
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.post.post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.post.favorited = !this.post.favorited;
+            const favoriteIcon = event.target
+            favoriteIcon.classList.remove('far');
+            favoriteIcon.classList.add('fas');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       } else {
+         fetch(this.postAPI+"/deletefavorite", { 
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.post.post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.post.favorited = !this.post.favorited;
+            const favoriteIcon = event.target
+            favoriteIcon.classList.remove('fas');
+            favoriteIcon.classList.add('far');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       }
     }
   },
   filters: {
-  moment: function (date) {
-    let dateStr = date.year + "-" + date.monthValue + "-" + date.dayOfMonth + " " + date.hour + ":" + date.minute;
-    return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
-  }
+    moment: function (date) {
+      let dateStr = date.year + "-" + date.monthValue + "-" + date.dayOfMonth + " " + date.hour + ":" + date.minute;
+      return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
+    }
   },
-
-created() {
+  created() {
     // load the reviews
     console.log(auth.getToken());
-    let postURL = this.postAPI+this.$route.params.post_id;
+    let postURL = this.postAPI+ "/single_post/" +this.$route.params.post_id;
     fetch(postURL, {
       method: 'GET',
       headers: {
@@ -110,6 +215,7 @@ created() {
       })
       .then((post) => {
         this.post = post;
+        this.comment.post_id = post.post_id;
       })
       .catch((err) => console.error(err));
 
@@ -140,7 +246,7 @@ created() {
 .detailBox {
     width:100%;
     height: 100%;
-    border:1px solid #bbb;
+
     margin:0px;
 }
 .titleBox {
@@ -184,13 +290,13 @@ created() {
     margin-top:10px;
 }
 .commentList li > div {
-    display:table-cell;
+    
 }
 .commenterImage {
-    width:30px;
+    width:70px;
     margin-right:5px;
     height:100%;
-    float:left;
+
 }
 .commenterImage img {
     width:100%;
@@ -238,6 +344,7 @@ body > div#app > div#nav{
 
 div.detail{
   margin-top: 130px;
+  margin-bottom: 30px;
   
 }
 

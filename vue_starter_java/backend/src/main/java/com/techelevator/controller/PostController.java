@@ -99,6 +99,12 @@ public class PostController {
 		postDao.savePost(newPost);
 	}
 	
+	@RequestMapping(path = "/addcomment", method = RequestMethod.POST)
+    public void addComment(@RequestBody Comment newComment) {
+		newComment.setUsername(auth.getCurrentUser().getUsername());
+		commentDao.saveComment(newComment);
+	}
+	
 	@GetMapping("/user_favorites/{username}")
 	public List<Post> getUserFavorites(@PathVariable String username) throws UserNotFoundException {
 		List<Post> posts = postDao.favoritesFromUser(username);

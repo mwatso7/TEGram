@@ -31,6 +31,19 @@ public class JdbcCommentDao implements CommentDao{
 		}
 		return comments;
 	}
+	
+	@Override
+	public boolean saveComment(Comment comment) {
+		
+		try{
+			String sqlInsertComment = "INSERT INTO comments(post_id, username, comment) VALUES (?,?,?)";
+			jdbcTemplate.update(sqlInsertComment, comment.getPost_id(), comment.getUsername(), comment.getComment());
+		} catch (Exception e){
+			return false;
+		}
+		return true;
+		
+	}
 
 //	@Override
 //	public Comment getFirstCommentByPostId(int post_id) {
