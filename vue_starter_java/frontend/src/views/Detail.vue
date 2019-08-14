@@ -1,14 +1,76 @@
 <template>
   <div class="detail">
-    <div class="detailpost">
-    <router-link to="/"></router-link>
-    <h4>{{post.title}}</h4>
-    <img v-bind:src ="post.img_url" alt='img'>
-    <p>Posted {{ post.date_time | moment }}</p>
-    <div><p v-for="comment in post.comments" v-bind:key="comment.id">{{comment.username}}: {{comment.comment}}</p></div>
-    <router-view/>
+    <div class="card">
+      <div class="card-header">
+      <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/><router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + post.username">{{post.username}}</router-link> - {{post.title}}
+     </div>
+     <div class="card-block">
+            <div class="row" style="width:100%; margin:0px;">
+                <div class="nopad col-lg-8">
+      <img class="card-img-center" v-bind:src ="post.img_url" alt='img'>
+                </div>
+                <div class="bpad col-lg-4" >
+                  <div class="detailBox">
+    <div class="titleBox">
+      <label>Comment Box</label>
+        <button type="button" class="close" aria-hidden="true">&times;</button>
     </div>
-  </div>
+    <div class="actionBox">
+        <ul class="commentList">
+            <li>
+                <div class="commenterImage">
+                  <img src="http://placekitten.com/50/50" />
+                </div>
+                <div class="commentText">
+                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                </div>
+            </li>
+            <li>
+                <div class="commenterImage">
+                  <img src="http://placekitten.com/45/45" />
+                </div>
+                <div class="commentText">
+                    <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                </div>
+            </li>
+            <li>
+                <div class="commenterImage">
+                  <img src="http://placekitten.com/40/40" />
+                </div>
+                <div class="commentText">
+                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                </div>
+            </li>
+            <p v-for="comment in post.comments" v-bind:key="comment.id">{{comment.username}}: {{comment.comment}}</p>
+        </ul>
+        
+    </div>
+    
+    </div>
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Your comments" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default">Add</button>
+            </div>
+        </form>
+                </div>
+                
+    </div>
+    </div>
+        <div class="card-footer">
+      <small class="text-muted">Posted {{ post.date_time | moment }}</small>
+      <span>
+        <i v-on:click.prevent="toggleLike(post.post_id,$event)" :class="{'fas fa-heart' : post.liked, 'far fa-heart' : !post.liked}"></i><span class="badge badge-light">{{post.numberOfLikes}}</span>
+        <i v-on:click.prevent="toggleFavorite(post.post_id,$event)" class="far fa-star" :class="{'fas fa-star' : post.favorited, 'far fa-star' : !post.favorited}"></i>
+        </span>
+    </div>
+    </div>
+</div>
 </template>
 <script src="../node_modules/moment/moment.js"></script>
 
@@ -68,6 +130,86 @@ created() {
 
 
 <style>
+.nopad{
+  padding:0px;
+}
+.bpad{
+  padding:0px 0px 55px 0px;
+}
+
+.detailBox {
+    width:100%;
+    height: 100%;
+    border:1px solid #bbb;
+    margin:0px;
+}
+.titleBox {
+    background-color:#fdfdfd;
+    padding:10px;
+}
+.titleBox label{
+  color:#444;
+  margin:0;
+  display:inline-block;
+}
+
+.commentBox {
+    padding:10px;
+    border-top:1px dotted #bbb;
+}
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+    width:85%;
+}
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+    width:20%;
+}
+.actionBox .form-group * {
+    width:100%;
+}
+.form-inline {
+ padding: 8px 20px 8px 20px;
+ width: 100%;
+}
+.taskDescription {
+    margin-top:10px 0;
+}
+.commentList {
+    padding:0;
+    list-style:none;
+    height: 100%;
+    overflow:auto;
+}
+.commentList li {
+    margin:0;
+    margin-top:10px;
+}
+.commentList li > div {
+    display:table-cell;
+}
+.commenterImage {
+    width:30px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+}
+.commenterImage img {
+    width:100%;
+    border-radius:50%;
+}
+.commentText p {
+    margin:0;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+.actionBox {
+    border-top:1px dotted #bbb;
+    padding:10px;
+    height: 100%;
+}
+
 
 a {
   text-decoration: none;
@@ -95,7 +237,7 @@ body > div#app > div#nav{
 }
 
 div.detail{
-  margin-top: 100px;
+  margin-top: 130px;
   
 }
 
@@ -106,11 +248,6 @@ div.detail > div.detailpost > p{
 
 div.detailpost > img {
   align-content: center;
-}
-
-div.detailpost > div {
-    padding:5px;
-    background-color:  rgba(60, 74, 80, 0.13);
 }
 
 
@@ -128,19 +265,6 @@ div.detailpost > div {
   div.detail {
     display: flex;
     justify-content: space-around;
-  }
-  
-  div.detailpost {
-    display:grid;
-    grid-template-columns: 3fr 1fr;
-    grid-template-areas: 
-    "title ."
-    "img comments"
-    "date .";
-    grid-gap: 0px;
-    width: 70%;
-    min-width: 900px;
-    border: 2px solid rgba(60, 74, 80, 0.13);
     
   }
   
@@ -149,21 +273,14 @@ div.detailpost > div {
     object-fit: cover;
 
   }
-
-  div.detailpost > div{
-    grid-area: comments;
-  }
-
+.card{
+  width:900px;
+}
   h4{
     padding:0px;
     margin:0px;
     font-size: 2rem;
     grid-area: title;
-  }
-
-  p{
-    font-size: 1.5rem;
-    grid-area: date;
   }
 }
 
