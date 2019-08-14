@@ -72,10 +72,15 @@ public class PostController {
 
 		if (post != null && comments != null) {
 			post.setComments(comments);
-			return post;
+			
+			
 		} else {
 			throw new PostNotFoundException(post_id, "Post Not Found!");
 		}
+		post.setNumberOfLikes(postDao.numberOfLikesOnPost(post_id));
+		post.setLiked(postDao.isLikedByUser(post_id, auth.getCurrentUser().getUsername()));
+		post.setFavorited(postDao.isFavoritedFromUser(post_id, auth.getCurrentUser().getUsername()));
+		return post;
 	}
 	
 	@GetMapping("/user_posts/{username}")
