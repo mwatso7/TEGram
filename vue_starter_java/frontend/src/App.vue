@@ -4,6 +4,7 @@
   <div id="nav" class="navbar navbar-default sticky-top shadow-sm p-3 mb-5 bg-white" style="padding 0px:">
       <router-link  class="navbar-brand" style="text-decoration: none;" to="/"><img style="width: 40px; margin-right: 10px;" src="../public/telogo.png"/><span id="logo">TE { Gram }</span></router-link>
       <div class="d-flex" style="color: #00ADEE;">
+          <router-link class="nav-item" style="color: #00ADEE; text-decoration: none; display: in-line; margin-right: 20px;" v-if="isLoggedIn" to='/favorites'><i class="far fa-bookmark"></i></router-link>
           <router-link class="nav-item" style="color: #00ADEE; text-decoration: none; display: in-line; margin-right: 20px;" v-if="isLoggedIn" to='/upload'><i class="far fa-paper-plane"></i></router-link>
         
           <router-link style="color: #00ADEE; text-decoration: none; display: in-line;" v-if="!isLoggedIn" to="/login"><h5>login</h5></router-link>

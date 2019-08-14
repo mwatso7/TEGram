@@ -8,6 +8,7 @@ import Register from './views/Register.vue'
 import Detail from './views/Detail.vue'
 import Upload from './views/Upload.vue'
 import UserPosts from './views/UserPosts.vue'
+import Favorites from './views/Favorites.vue'
 
 Vue.use(Router)
 
@@ -36,6 +37,14 @@ const router = new Router({
       path: '/user_posts/:username',
       name: 'user_posts',
       component: UserPosts,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/favorites',
+      name: 'favorites',
+      component: Favorites,
       meta: {
         requiresAuth: true
       }
