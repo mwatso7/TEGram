@@ -3,6 +3,7 @@
     <div class="post card" style="margin-bottom: 20px; padding:0px;" v-for="post in filteredPost" v-bind:key="post.post_id">
       <div class="card-header">
         <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/><router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + post.username">{{post.username}}</router-link> - {{post.title}}
+        <i class="fas fa-times-circle"></i>
       </div>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
@@ -14,7 +15,10 @@
       </ul>
       <div class="card-footer">
         <small class="text-muted">Posted {{ post.date_time | moment }}</small>
-        <i class="far fa-heart"></i>
+        <span v-if="isLoggedIn">
+        <i v-on:click.prevent="toggleLike(post.post_id,$event)" :class="{'fas fa-heart' : post.liked, 'far fa-heart' : !post.liked}"></i><span class="badge badge-light">{{post.numberOfLikes}}</span>
+        <i v-on:click.prevent="toggleFavorite(post.post_id,$event)" class="far fa-star" :class="{'fas fa-star' : post.favorited, 'far fa-star' : !post.favorited}"></i>
+        </span>
       </div>
     </div>
   </div>
@@ -22,15 +26,17 @@
 <script src="../node_modules/moment/moment.js"></script>
 
 <script>
-
+import auth from '../auth';
 window.moment = require('moment');
 export default {
   name: "home",
   data() {
     return {
-      postAPI: "http://localhost:8080/tegram/post/allposts",
+      postAPI: "http://localhost:8080/tegram/post",
       posts: [],
-      userSrch: ''
+      userSrch: '',
+      isLoggedIn: false,
+      isAdmin: false
     };
   },
   computed: {
@@ -46,14 +52,109 @@ export default {
     return moment(dateStr, 'YYYY-MM-DD hh:mm').fromNow();
   }
   },
-  method: {
-    datefrom(date_time){
-       return moment(date_time).fromNow()
+  methods: {
+    toggleLike(post_id, event){
+      const arrIndex = this.posts.findIndex((item) => item.post_id == post_id);
+      if(!this.posts[arrIndex].liked){
+        fetch(this.postAPI+"/addlike", { 
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].liked = !this.posts[arrIndex].liked;
+            this.posts[arrIndex].numberOfLikes++;
+            const likeIcon = event.target
+            likeIcon.classList.remove('far');
+            likeIcon.classList.add('fas');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       } else {
+         fetch(this.postAPI+"/deletelike", { 
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].liked = !this.posts[arrIndex].liked;
+            this.posts[arrIndex].numberOfLikes--;
+            const likeIcon = event.target
+            likeIcon.classList.remove('fas');
+            likeIcon.classList.add('far');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       }
+    },
+    toggleFavorite(post_id, event){
+      const arrIndex = this.posts.findIndex((item) => item.post_id == post_id);
+      if(!this.posts[arrIndex].favorited){
+        fetch(this.postAPI+"/addfavorite", { 
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].favorited = !this.posts[arrIndex].favorited;
+            const favoriteIcon = event.target
+            favoriteIcon.classList.remove('far');
+            favoriteIcon.classList.add('fas');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       } else {
+         fetch(this.postAPI+"/deletefavorite", { 
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(this.posts[arrIndex].post_id)
+         })
+        .then(response => {
+          if (response.ok) {
+            this.posts[arrIndex].favorited = !this.posts[arrIndex].favorited;
+            const favoriteIcon = event.target
+            favoriteIcon.classList.remove('fas');
+            favoriteIcon.classList.add('far');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       }
     }
   },
   created() {
-    // load the reviews
-    fetch(this.postAPI)
+    if(auth.getUser()){
+      this.isLoggedIn = true;
+      this.isAdmin = (this.isLoggedIn.rol === "admin") ? true: false;
+
+      fetch(this.postAPI+"/allpostsauth", { 
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type": "application/json"
+          }})
       .then((response) => {
         return response.json();
       })
@@ -61,14 +162,38 @@ export default {
         this.posts = posts;
       })
       .catch((err) => console.error(err));
-  },
-  
-  
+    } else {
+      fetch(this.postAPI+"/allposts")
+      .then((response) => {
+        return response.json();
+      })
+      .then((posts) => {
+        this.posts = posts;
+      })
+      .catch((err) => console.error(err));
+    }
+  }
 };
 </script>
 
 <style>
-
+.fa-star{
+  margin-left: 20px;
+}
+.fa-heart{
+  margin-right: 2px;
+}
+.fa-times-circle{
+  color:red;
+  float: right;
+}
+.fas.fa-heart{
+  color:red;
+}
+.fas.fa-star{
+  color:rgb(254, 216, 0);
+  
+}
 body{
   margin:0px;
   padding: 0px;
