@@ -8,7 +8,7 @@
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
       </router-link>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item" v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</li>
+        <li class="list-group-item" v-if="post.comments.length != 0"><router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + post.comments[0].username">{{post.comments[0].username}}</router-link>: {{post.comments[0].comment}}</li>
       </ul>
       <div class="card-footer">
         <small class="text-muted">Posted {{ post.date_time | moment }}</small>

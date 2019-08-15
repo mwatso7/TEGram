@@ -3,7 +3,6 @@
     <div class="post card" style="margin-bottom: 20px; padding:0px;" v-for="post in filteredPost" v-bind:key="post.post_id">
       <div class="card-header">
         <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/><router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + post.username">{{post.username}}</router-link> - {{post.title}}
-        <i class="fas fa-times-circle"></i>
       </div>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
@@ -11,7 +10,7 @@
       <div class="card-text" style="padding-left: 10px;">
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item" v-if="post.comments.length != 0"><span>{{post.comments[0].username}}</span>: {{post.comments[0].comment}}</li>
+        <li class="list-group-item" v-if="post.comments.length != 0"><router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + post.comments[0].username">{{post.comments[0].username}}</router-link>: {{post.comments[0].comment}}</li>
       </ul>
       <div class="card-footer">
         <small class="text-muted">Posted {{ post.date_time | moment }}</small>

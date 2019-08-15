@@ -1,7 +1,7 @@
 <template>
   <div id="login" class="text-center">
     <form class="form-signin" style="width: 80%; max-width: 400px;" @submit.prevent="login">
-      <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+      <h1 class="h3 mb-3 font-weight-normal" style="color: #00ADEE;">Please Sign In</h1>
       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -28,7 +28,7 @@
         required
       />
       <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <button class="btn btn-lg btn-success btn-block" style="background-color: #8CC63F;" type="submit">Sign in</button>
     </form>
   </div>
 </template>

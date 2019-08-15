@@ -5,11 +5,8 @@
       <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/><router-link style="color: #00ADEE; text-decoration: none;" :to="'/user_posts/' + post.username">{{post.username}}</router-link> - {{post.title}}
      </div>
      <div class="card-block">
-            <div class="row" style="width:100%; margin:0px;">
-                <div class="nopad col-lg-8">
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img'>
-                </div>
-                <div class="bpad col-lg-4" >
+ 
                   <div class="detailBox">
     <div class="titleBox">
       <label>Comments</label>
@@ -31,8 +28,8 @@
     </div>
     
     </div>
-        <form class="form-inline" role="form" v-on:submit.prevent="addComment">
-            <div class="form-group">
+        <form class="comment-form" role="form" v-on:submit.prevent="addComment">
+            <div class="comment-group">
                 <input
                   class="form-control"
                   type="text"
@@ -43,13 +40,10 @@
                   placeholder="Add a comment..."
             />
             </div>
-            <div class="form-group">
+            <div class="button-group">
                 <button v-bind:disabled="!canAdd" class="btn btn-default">Add</button>
             </div>
         </form>
-                </div>
-                
-    </div>
     </div>
         <div class="card-footer">
       <small class="text-muted">Posted {{ post.date_time | moment }}</small>
@@ -59,7 +53,7 @@
         </span>
     </div>
     </div>
-</div>
+  </div>
 </template>
 <script src="../node_modules/moment/moment.js"></script>
 
@@ -98,7 +92,8 @@ export default {
       })
         .then(response => {
           if (response.ok) {
-            this.$router.push("/");
+            //this.post.comments.push(this.comment)
+            this.$router.go();
           }
         })
         .catch(err => {
@@ -245,7 +240,7 @@ export default {
 
 .detailBox {
     width:100%;
-    height: 100%;
+    max-height: 300px;
 
     margin:0px;
 }
@@ -264,15 +259,19 @@ export default {
     border-top:1px dotted #bbb;
 }
 .commentBox .form-group:first-child, .actionBox .form-group:first-child {
-    width:85%;
+    width:80%;
 }
 .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
     width:20%;
 }
-.actionBox .form-group * {
-    width:100%;
+.comment-group{
+    width:95%;
 }
-.form-inline {
+.button-group{
+    width:60px;
+}
+.comment-form {
+  display: inline-flex;
  padding: 8px 20px 8px 20px;
  width: 100%;
 }
@@ -280,9 +279,9 @@ export default {
     margin-top:10px 0;
 }
 .commentList {
-    padding:0;
+    padding:0px 0px 20px 0px;
     list-style:none;
-    height: 100%;
+    max-height: 240px;
     overflow:auto;
 }
 .commentList li {
@@ -312,8 +311,9 @@ export default {
 }
 .actionBox {
     border-top:1px dotted #bbb;
-    padding:10px;
-    height: 100%;
+    padding:10px 10px 50px 10px;
+    max-height: 300px;
+
 }
 
 
