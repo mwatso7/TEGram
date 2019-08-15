@@ -28,14 +28,6 @@
         autocomplete="off"
         placeholder="Add a caption..."
       />
-      <input
-        type="text"
-        name="tags"
-        id="tags"
-        v-model="tags"
-        autocomplete="off"
-        placeholder="Add Hashtags..."
-      />
       <div class="form-actions">
         <button v-bind:disabled="!canPost" id="share">Share</button>
         <router-link to="/" tag="button">Cancel</router-link>
@@ -61,9 +53,9 @@ export default {
         // https://alligator.io/vuejs/vue-dropzone/
         url: "https://api.cloudinary.com/v1_1/tegram-mccool/image/upload",
         thumbnailWidth: 250,
-        maxFilesize: 2.0,
+        maxFilesize: 6.0,
         acceptedFiles: ".jpg, .jpeg, .png, .gif",
-        uploadMultipe: false
+        uploadMultiple: false
       },
       post: {
         post_id: "",

@@ -1,7 +1,7 @@
 <template>
 
   <div id="app">
-  <div id="nav" class="navbar navbar-default sticky-top shadow-lg" style="background-color: #383E42;">
+  <div id="nav" class="navbar navbar-default sticky-top shadow-sm" style="background-color: #383E42;">
       <router-link  class="navbar-brand" style="text-decoration: none;" to="/"><img style="width: 40px; margin-right: 10px;" src="../public/telogo.png"/><span id="logo">TE { Gram }</span></router-link>
       <div class="d-flex" style="color: #00ADEE;">
           <router-link class="nav-item" style="color: #00ADEE; text-decoration: none; display: in-line; margin-right: 20px;" v-if="isLoggedIn" to='/favorites'><i class="far fa-bookmark"></i></router-link>

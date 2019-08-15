@@ -292,7 +292,7 @@ export default {
     
 }
 .commenterImage {
-    width:70px;
+    width:100%;
     margin-right:5px;
     height:100%;
 
@@ -343,7 +343,7 @@ body > div#app > div#nav{
 }
 
 div.detail{
-  margin-top: 130px;
+  margin-top: 100px;
   margin-bottom: 30px;
   
 }
