@@ -1,8 +1,22 @@
 <template>
   <div class="home">
+    <b-modal id="delete-modal" ref="modal" title="Delete Post" centered>
+      <template slot="modal-header">
+        <h5>Delete Post</h5>
+      </template>
+      <template slot="default">
+        <p>Are you sure you want to delete this post?</p>
+      </template>
+      <template slot="modal-footer" slot-scope="{ cancel }">
+        <b-button size="sm" variant="default" @click="cancel()">Cancel</b-button>
+        <b-button size="sm" variant="danger" @click="deletePost()">Delete</b-button>
+      </template>
+    </b-modal> 
+
     <div class="post card" style="margin-bottom: 20px; padding:0px;" v-for="post in filteredPost" v-bind:key="post.post_id">
       <div class="card-header">
         <img style="width: 32px; margin-right: 10px;" src="../../public/telogo.png"/>{{post.username}} - {{post.title}}
+         <b-button v-if="isAdmin" class="float-right" variant="danger" size="sm" v-b-modal.delete-modal @click="dpost=post.post_id">delete</b-button>
       </div>
       <router-link v-bind:to="'/detail/post_id/' + post.post_id">
       <img class="card-img-center" v-bind:src ="post.img_url" alt='img' >
@@ -33,7 +47,10 @@ export default {
     return {
       postAPI: "http://localhost:8080/tegram/post",
       posts: [],
-      userSrch: ''
+      dpost: '',
+      userSrch: '',
+      isLoggedIn: false,
+      isAdmin: false
     };
   },
   filters: {
@@ -143,6 +160,11 @@ export default {
   },
   created() {
     this.userSrch = this.$route.params.username;
+    if(auth.getUser()){
+      this.isLoggedIn = true;
+      this.user = auth.getUser();
+      this.isAdmin = (auth.getUser().rol == "admin") ? true: false;
+    }
     // load the reviews
     fetch(this.postAPI + "/allpostsauth", { 
           method: "GET",

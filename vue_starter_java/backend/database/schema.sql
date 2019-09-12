@@ -15,7 +15,7 @@ CREATE TABLE users (
 drop table if exists post cascade;
 drop table if exists favorites cascade;
 drop table if exists comments cascade;
-drop table if exist likes cascade;
+drop table if exists likes cascade;
 
 
 create table post (
