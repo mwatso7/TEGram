@@ -44,6 +44,19 @@ public class JdbcCommentDao implements CommentDao{
 		return true;
 		
 	}
+	
+	@Override
+	public boolean deleteComments(int post_id) {
+		
+		try{
+			String sqlDeleteComments = "DELETE FROM comments WHERE post_id = ?";
+			jdbcTemplate.update(sqlDeleteComments, post_id);
+		} catch (Exception e){
+			return false;
+		}
+		return true;
+		
+	}
 
 //	@Override
 //	public Comment getFirstCommentByPostId(int post_id) {

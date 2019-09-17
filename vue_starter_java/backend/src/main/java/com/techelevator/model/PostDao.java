@@ -12,6 +12,8 @@ public interface PostDao {
 	
 	public boolean savePost(Post newPost);
 	
+	public boolean deletePost(int id);
+	
 	public boolean saveLike(int id, String username);
 	
 	public boolean deleteLike(int id, String username);

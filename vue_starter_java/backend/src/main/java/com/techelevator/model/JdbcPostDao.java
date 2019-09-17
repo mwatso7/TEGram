@@ -81,6 +81,30 @@ public class JdbcPostDao implements PostDao{
 		
 	}
 	
+	@Override
+	public boolean deletePost(int id) {
+		
+		try{
+			
+			String sqlDeletePost = "DELETE FROM post WHERE post_id = ?";
+			jdbcTemplate.update(sqlDeletePost, id);
+			
+			String sqlDeleteLikes = "DELETE FROM likes WHERE post_id = ?";
+			jdbcTemplate.update(sqlDeleteLikes, id);
+			
+			String sqlDeleteFavorites = "DELETE FROM favorites WHERE post_id = ?";
+			jdbcTemplate.update(sqlDeleteFavorites, id);
+			
+			
+		} catch (Exception e){
+			return false;
+		}
+		return true;
+		
+	}
+	
+	
+	
 //	private int getNextId() {
 //		String sqlSelectNextId = "SELECT NEXTVAL('post_post_id_seq')";
 //		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectNextId);

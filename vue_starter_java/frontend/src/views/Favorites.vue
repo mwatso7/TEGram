@@ -69,7 +69,7 @@ export default {
   methods: {
     deletePost(){
       console.log("post deleted - " + this.dpost);
-      this.$refs.modal.hide();
+      this.$bvModal.hide('delete-modal')
     },
     toggleLike(post_id, event){
       const arrIndex = this.posts.findIndex((item) => item.post_id == post_id);
